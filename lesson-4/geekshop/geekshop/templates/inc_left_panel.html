@@ -1,0 +1,37 @@
+{% load static %}
+
+<div id="sidebar" class="float_l">
+
+{% block categories %}
+        	<div class="sidebar_box"><span class="bottom"></span>
+            	<h3>Категории товаров</h3>
+                <div class="content"> 
+                	<ul class="sidebar_list">
+
+                        {% for cat in categories %}
+                    	<li><a href="#">{{ cat.name }}</a></li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+{% endblock categories %}
+
+{% block popular %}
+            <div class="sidebar_box"><span class="bottom"></span>
+            	<h3>Последние продажи</h3>
+                <div class="content">
+
+                    {% for pos in positions %}
+                	<div class="bs_box">
+                    	<a href="#"><img height="50" width="50" src="/media/{{ pos.image }}" alt="image" /></a>
+                        <h4><a href="#">{{ pos.name }}</a></h4>
+                        <p class="price">&#8381; {{ pos.price }}</p>
+                        <div class="cleaner"></div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+{% endblock popular %}
