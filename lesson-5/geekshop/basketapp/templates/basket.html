@@ -1,0 +1,34 @@
+{% load static %}
+{% include 'inc_head.html' %}
+
+<body>
+
+{% include 'inc_menu.html' %}
+
+<div id="templatemo_main">
+
+    {% include 'inc_left_panel.html' %}
+    {% if user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Продукт</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in basket %}
+                  <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ item.product }}</td>
+                  </tr>
+              {% endfor %}
+
+              </tbody>
+            </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
