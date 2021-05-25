@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 
-from adminapp.forms import ProductEditForm, ProductCategoryEditForm
+from adminapp.forms import ProductEditForm, ProductCategoryEditForm, UserAdminRegistrationForm, UserAdminProfileForm
 from authapp.models import ShopUser
 from django.shortcuts import get_object_or_404, render
 from mainapp.models import Product, ProductCategory
@@ -23,28 +23,31 @@ class UsersListView(ListView):
         return super().dispatch(*args, **kwargs)
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def user_create(request):
-    pass
+class UserCreateView(CreateView):
+    model = ShopUser
+    template_name = 'adminapp/admin-users-create.html'
+    form_class = UserAdminRegistrationForm
+    success_url = reverse_lazy('admin_staff:admin_users')
 
 
 class UserUpdateView(UpdateView):
     model = ShopUser
     template_name = 'authapp/edit.html'
     context_object_name = 'user'
-    success_url = reverse_lazy('admin_staff:users')
-    # fields = '__all__'
+    success_url = reverse_lazy('admin_staff:user_update')
     fields = ['first_name', 'last_name', 'avatar', 'age']
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def user_update(request, pk):
-    pass
+class UserDeleteView(DeleteView):
+    model = ShopUser
+    template_name = 'authapp/edit.html'
+    success_url = reverse_lazy('admin_staff:user_delete')
 
-
-@user_passes_test(lambda u: u.is_superuser)
-def user_delete(request, pk):
-    pass
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @user_passes_test(lambda u: u.is_superuser)

@@ -10,6 +10,26 @@ class ShopUserAdminEditForm(ShopUserEditForm):
         fields = '__all__'
 
 
+class UserAdminRegistrationForm(ShopUserEditForm):
+    avatar = forms.ImageField(widget=forms.FileInput(), required=False)
+
+    class Meta:
+        model = ShopUser
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(UserAdminRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['avatar'].widget.attrs['class'] = 'custom-file-input'
+
+
+class UserAdminProfileForm(ShopUserEditForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserAdminProfileForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['readonly'] = False
+        self.fields['email'].widget.attrs['readonly'] = False
+
+
 class ProductCategoryEditForm(forms.ModelForm):
     class Meta:
         model = ProductCategory
