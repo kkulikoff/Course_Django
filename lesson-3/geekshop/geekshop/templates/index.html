@@ -1,0 +1,54 @@
+{% load static %}
+{% include 'inc_head.html' %}
+
+<body>
+
+{% include 'inc_menu.html' %}
+
+<div id="templatemo_main">
+
+    {% include 'inc_left_panel.html' %}
+
+    <div id="content" class="float_r">
+        <div id="slider-wrapper">
+            <div id="slider" class="nivoSlider">
+                <img src="{% static '/images/slider/02.jpg' %}" alt="" />
+                <a href="#"><img src="{% static '/images/slider/01.jpg' %}" alt="" title="This is an example of a caption"/></a>
+                <img src="{% static '/images/slider/03.jpg' %}" alt="" />
+                <img src="{% static '/images/slider/04.jpg' %}" alt="" title="#htmlcaption" />
+            </div>
+            <div id="htmlcaption" class="nivo-html-caption">
+                <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
+            </div>
+        </div>
+        <script type="text/javascript" src="{% static '/js/jquery-1.4.3.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/js/jquery.nivo.slider.pack.js' %}"></script>
+            <script type="text/javascript">
+            $(window).load(function() {
+                $('#slider').nivoSlider();
+            });
+            </script>
+        <h1>Новые товары</h1>
+
+        {% for n_pos in n_positions %}
+        <div class="product_box no_margin_right">
+            <h3>{{ n_pos.name }}</h3>
+            <a href="{% url 'productdetail' %}"><img height="120" width="120" src="/media/{{ n_pos.image }}"
+                                                     alt="Shoes 1"/></a>
+            <p class="product_price">&#8381; {{ n_pos.price }}</p>
+            <a href="{% url 'shoppingcart' %}" class="addtocart"></a>
+            <a href="{% url 'productdetail' %}" class="detail"></a>
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="cleaner"></div>
+</div>
+
+{% include 'inc_footer.html' %}
+
+</div>
+</div>
+
+</body>
+</html>
